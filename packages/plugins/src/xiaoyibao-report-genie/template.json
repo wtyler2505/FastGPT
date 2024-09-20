@@ -1,13 +1,16 @@
 {
-  "author": "",
-  "version": "481",
-  "templateType": "tools",
-  "name": "获取当前时间",
-  "avatar": "core/workflow/template/getTime",
-  "intro": "获取用户当前时区的时间。",
-  "showStatus": false,
-  "isTool": true,
+  "author": "吕老师/Sam",
+  "version": "v1",
+  "name": "小胰宝报告精灵",
+  "avatar": "plugins/xiaoyibao-report-genie/xiaoyibao.png",
+  "intro": "对于上传的病情报告进行识别，解析和提取关键指标如CA199，持久化存储并结合智能分析，生成报告，并返回给用户",
+  "inputExplanationUrl": "https://uei55ql5ok.feishu.cn/wiki/Yb6LwrowpioqfTkktPVcADnanEf", //飞书设计文档
+  "showStatus": true,
   "weight": 10,
+
+  "isTool": true,
+  "templateType": "tools",
+
   "workflow": {
     "nodes": [
       {
@@ -74,14 +77,40 @@
             "version": "481",
             "inputs": ["extractedData"],
             "outputs": ["storedData"]
+          },
+          {
+            "nodeId": "randomNodeId4",
+            "name": "计算变动值和绘制折线图",
+            "intro": "计算 ca199 在两个不同日期的变动值和变动比例，并绘制折线图。",
+            "avatar": "/imgs/workflow/output.png",
+            "flowNodeType": "pluginOutput",
+            "showStatus": false,
+            "version": "481",
+            "inputs": ["storedData"],
+            "outputs": ["chartData"]
+          }
+        ],
+        "edges": [
+          {
+            "source": "randomNodeId1",
+            "target": "randomNodeId2",
+            "sourceHandle": "result",
+            "targetHandle": "result"
+          },
+          {
+            "source": "randomNodeId2",
+            "target": "randomNodeId3",
+            "sourceHandle": "extractedData",
+            "targetHandle": "extractedData"
+          },
+          {
+            "source": "randomNodeId3",
+            "target": "randomNodeId4",
+            "sourceHandle": "storedData",
+            "targetHandle": "storedData"
           }
         ]
-      }
-      ],
-    "edges": [
-      { "source": "randomNodeId1", "target": "randomNodeId2" },
-      { "source": "randomNodeId2", "target": "randomNodeId3"}
-      } 
-    ] 
-  } 
+      }  
+    ]  
+  }
 }
